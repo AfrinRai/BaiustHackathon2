@@ -8,28 +8,65 @@ const Home = () => {
   ];
 
   return (
-    <div className="relative flex flex-col items-center justify-start min-h-screen overflow-hidden bg-gradient-to-br from-[#1b0030] via-[#2a004d] to-[#3d0066] px-4 py-16 animate-bgShift">
+    <div className="relative flex flex-col items-center justify-start min-h-screen overflow-hidden px-4 py-16 bg-black animate-uniqueGalaxy">
 
-      {/* Particle circles */}
+      {/* Drifting nebula clouds */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full blur-3xl opacity-25 animate-nebulaSlow"
+            style={{
+              width: `${Math.random() * 600 + 400}px`,
+              height: `${Math.random() * 600 + 400}px`,
+              top: `${Math.random() * 70}%`,
+              left: `${Math.random() * 70}%`,
+              background: `radial-gradient(circle at center, rgba(${50 + i*40},${0 + i*30},${100 + i*40},0.3), transparent 70%)`,
+              animationDuration: `${30 + i*10}s`,
+              animationDelay: `${i*5}s`,
+            }}
+          ></div>
+        ))}
+      </div>
+
+      {/* Star clusters */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
+        {Array.from({ length: 120 }).map((_, i) => (
           <span
             key={i}
-            className="absolute bg-purple-500/30 rounded-full animate-particle"
+            className="absolute rounded-full bg-white opacity-50 animate-twinkleUnique"
             style={{
-              width: `${Math.random() * 25 + 10}px`,
-              height: `${Math.random() * 25 + 10}px`,
+              width: `${Math.random() * 2 + 0.5}px`,
+              height: `${Math.random() * 2 + 0.5}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              animationDuration: `${Math.random() * 10 + 5}s`,
+              animationDuration: `${Math.random() * 6 + 4}s`,
               animationDelay: `${Math.random() * 5}s`,
             }}
           ></span>
         ))}
       </div>
 
+      {/* Cosmic streaks */}
+      <div className="absolute inset-0 pointer-events-none">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute bg-white/20 rounded-full animate-streak"
+            style={{
+              width: `${Math.random() * 2 + 1}px`,
+              height: `${Math.random() * 80 + 50}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${10 + Math.random()*20}s`,
+              animationDelay: `${Math.random() * 10}s`,
+            }}
+          ></div>
+        ))}
+      </div>
+
       {/* Heading */}
-      <h1 className="text-5xl md:text-6xl font-extrabold text-purple-400 mb-12 relative z-10 animate-headingEntrance">
+      <h1 className="text-5xl md:text-6xl font-extrabold text-purple-300 mb-12 relative z-10 animate-headingEntrance drop-shadow-[0_0_30px_rgba(180,120,255,0.6)]">
         Welcome
       </h1>
       <p className="text-gray-300 text-center max-w-xl mb-12 z-10 animate-headingEntrance delay-200">
@@ -41,7 +78,7 @@ const Home = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`bg-gray-900/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 text-white transform transition-transform duration-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(139,92,246,0.7)] animate-cardEntrance delay-${index * 200 + 300}`}
+            className={`bg-gray-900/70 backdrop-blur-2xl rounded-3xl shadow-[0_0_30px_rgba(88,28,135,0.5)] p-8 text-white transform transition-transform duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.7)] animate-cardEntrance delay-${index * 200 + 300}`}
           >
             <h2 className="text-2xl font-bold mb-4">{card.title}</h2>
             <p className="text-gray-300">{card.description}</p>
@@ -49,48 +86,47 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Animations CSS */}
-      <style>
-        {`
-          /* Background color shift */
-          @keyframes bgShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-bgShift { background-size: 200% 200%; animation: bgShift 15s ease infinite; }
+      <style>{`
+        /* Nebula slow drift */
+        @keyframes nebulaSlow {
+          0% { transform: translateX(0) translateY(0); opacity: 0.2; }
+          50% { transform: translateX(30px) translateY(-20px); opacity: 0.35; }
+          100% { transform: translateX(0) translateY(0); opacity: 0.2; }
+        }
+        .animate-nebulaSlow { animation: nebulaSlow linear infinite; }
 
-          /* Card zoom entrance */
-          @keyframes cardEntrance {
-            0% { opacity: 0; transform: scale(0.8); }
-            70% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); }
-          }
-          .animate-cardEntrance { animation: cardEntrance 1s ease forwards; }
+        /* Twinkle stars */
+        @keyframes twinkleUnique {
+          0%, 100% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 0.9; transform: scale(1.4); }
+        }
+        .animate-twinkleUnique { animation: twinkleUnique linear infinite; }
 
-          /* Heading slide */
-          @keyframes headingEntrance {
-            0% { opacity: 0; transform: translateY(-30px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          .animate-headingEntrance { animation: headingEntrance 1s ease forwards; }
+        /* Cosmic streaks */
+        @keyframes streak {
+          0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+          50% { opacity: 0.6; }
+          100% { transform: translateY(200px) translateX(50px) rotate(10deg); opacity: 0; }
+        }
+        .animate-streak { animation: streak linear infinite; }
 
-          /* Particle animation */
-          @keyframes particle {
-            0% { transform: translateY(0) scale(1); opacity: 0.3; }
-            50% { transform: translateY(-50px) scale(1.5); opacity: 0.6; }
-            100% { transform: translateY(0) scale(1); opacity: 0.3; }
-          }
-          .animate-particle { animation: particle linear infinite; }
+        /* Heading entrance */
+        @keyframes headingEntrance {
+          0% { opacity: 0; transform: translateY(-30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-headingEntrance { animation: headingEntrance 1.2s ease forwards; }
 
-          /* Animation delays */
-          .delay-200 { animation-delay: 0.2s; }
-          .delay-300 { animation-delay: 0.3s; }
-          .delay-500 { animation-delay: 0.5s; }
-          .delay-700 { animation-delay: 0.7s; }
-          .delay-900 { animation-delay: 0.9s; }
-        `}
-      </style>
+        /* Card entrance */
+        @keyframes cardEntrance {
+          0% { opacity: 0; transform: scale(0.85); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        .animate-cardEntrance { animation: cardEntrance 1s ease forwards; }
+
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+      `}</style>
     </div>
   );
 };

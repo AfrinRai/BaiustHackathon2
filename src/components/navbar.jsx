@@ -28,7 +28,7 @@ const Navbar = () => {
               to="/"
               className="text-purple-400 font-bold text-2xl hover:text-purple-300 transition-colors"
             >
-              MyApp
+              Duita Pothik
             </Link>
           </div>
 
