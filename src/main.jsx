@@ -11,7 +11,8 @@ import Root from './components/Root.jsx';
 import Auth_provider from './provider/Auth_provider.jsx';
 import NotFound from './error.jsx'; 
 import Mission1 from './components/Mission1.jsx';
-// import Mission2 from './pages/Mission2.jsx';
+import Mission2 from './components/Mission2.jsx';
+import Mission3 from './components/Mission3.jsx';
 import PrivateRoute from './provider/privateRoute.jsx';
 
 const router = createBrowserRouter([
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <RegisterForm /> },
       { path: "/mission1", element: <PrivateRoute><Mission1 /></PrivateRoute> },
-      // { path: "/mission2", element: <Mission2 /> },
+      { path: "/mission2", element: <Mission2 /> },
+      { path: "/mission3", element: <Mission3/> },
     ],
   },
 ]);

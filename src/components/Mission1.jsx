@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
+import axios from "axios";
 
 const Mission1 = () => {
   const { sidebarOpen } = useOutletContext(); // <- get sidebar open/close

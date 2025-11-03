@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/Auth_provider.jsx";
 import { Menu, X } from "lucide-react";
