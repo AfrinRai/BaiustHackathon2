@@ -1,17 +1,119 @@
-# React + Vite
+# MonBondhu Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🌐 **MonBondhu** (মনবন্ধু) is a culturally-aware web application designed to help rural Bangladeshi communities access mental health support, find nearby healthcare facilities, track maternal & child health, and get preventive health guidance. This is the **frontend** of the project.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
 
-## React Compiler
+- **React.js** – UI library  
+- **Tailwind CSS** – Styling  
+- **React Leaflet** – Interactive maps for healthcare facilities  
+- **Axios** – API requests to backend  
+- **React Router** – Client-side routing  
+- **LocalStorage** – Offline caching for user data  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📌 Features & Implementation Plan
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# BaiustHackathon2
+### 1. Mental Health Check-In
+**Goal:** Track daily emotional wellness.  
+**Plan:**  
+- Users log mood & stress in Bangla.  
+- Offline storage ensures data is saved without internet.  
+- Trend graphs visualize emotional patterns.  
+- Privacy-first: logs remain on device.  
+
+---
+
+### 2. Community Health Map
+**Goal:** Locate nearby healthcare facilities.  
+**Plan:**  
+- Interactive map with markers for Clinics, Upazila Health Complexes, NGO centers, Pharmacies, CHWs.  
+- Geolocation-based proximity ranking.  
+- Offline fallback with cached list.  
+- Popups show name, type, distance, and landmark.  
+
+---
+
+### 3. Anonymous Help Request
+**Goal:** Enable privacy-first help requests.  
+**Plan:**  
+- Users submit requests without personal identifiers.  
+- Requests queued offline, sent automatically when online.  
+- Users receive confirmation and next-step instructions.  
+- Culturally sensitive consent and messaging.
+
+---
+
+### 4. Seasonal Preventive Health Tips
+**Goal:** Provide context-aware health guidance.  
+**Plan:**  
+- Display tips for seasonal risks: dengue (monsoon), flu/pneumonia (winter), diarrhea (summer), heat/cold safety.  
+- Advice adapted for rural Bangladesh context.  
+- Offline access: preloaded content available without network.  
+- Push notifications to nudge users during high-risk seasons.
+
+---
+
+### 5. Maternal & Child Health Tracker
+**Goal:** Track ANC visits and child vaccinations.  
+**Plan:**  
+- Users input expected delivery or child birth date.  
+- Automatic reminders for ANC checkups and vaccination schedule (BCG, Penta, MR, etc.).  
+- Offline-capable; reminders work even without connectivity.  
+- Simple UI with culturally sensitive language.
+
+---
+
+### 6. Health Events & Community Health Worker Directory
+**Goal:** Help users access local health services and personnel.  
+**Plan:**  
+- Display upcoming health camps, vaccination drives, mental health awareness sessions.  
+- RSVP functionality integrated with calendar.  
+- Searchable CHW directory: name, village/union, skills, contact availability.  
+- Verified badges for trained volunteers; no popularity ratings.  
+- Offline list fallback for areas with poor network.
+
+---
+
+### 7. Voice-First Assistant
+**Goal:** Enable low-literacy users to navigate the app using voice.  
+**Plan:**  
+- Bangla speech recognition for commands like "স্বাস্থ্য তথ্য দেখাও" (Show health info) or "হাসপাতাল কোথায়?" (Where is hospital?).  
+- Text-to-Speech (TTS) reads health tips aloud offline.  
+- Pre-cache important tips for offline use.  
+- Culturally sensitive prompts for elderly or visually impaired users.  
+
+---
+
+### 8. Data Analytics & Export (Optional Frontend Visualization)
+**Goal:** Provide anonymized engagement metrics for NGOs/district health offices.  
+**Plan:**  
+- Aggregate weekly/daily mood check-ins.  
+- Count anonymous help requests per upazila.  
+- Most-viewed preventive health tips.  
+- Visual charts in dashboard; no personal data exported.  
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js >= 18  
+- npm or yarn  
+- MonBondhu backend server running  
+
+### Installation
+```bash
+# Clone the repo
+git clone https://github.com/your-username/monbondhu-frontend.git
+
+# Enter the folder
+cd monbondhu-frontend
+
+# Install dependencies
+npm install
+# or
+yarn install
