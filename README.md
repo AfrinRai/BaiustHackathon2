@@ -4,6 +4,12 @@
 
 ---
 
+HLD Link: https://app.eraser.io/workspace/xMSnq5e2wjQ7D6V9iR78
+
+The project architecture includes a React frontend and supportive backend for offline and privacy-focused functionality. Mission 1 and Mission 2 are fully implemented, enabling mood tracking in Bangla with local storage and an interactive health facility map with offline fallback. Mission 3 and Mission 4 have completed frontends: Mission 3 allows anonymous help requests, while Mission 4 shows seasonal health tips with a language toggle and offline access. Backend integration for Missions 3 and 4 is pending, with the system emphasizing privacy, rural accessibility, and culturally relevant guidance.
+
+---
+
 ## 🛠 Tech Stack
 
 - **React.js** – UI library  
