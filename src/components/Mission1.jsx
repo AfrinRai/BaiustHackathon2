@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useOutletContext } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom"; // ✅ add this
 import axios from "axios";
 
 const Mission1 = () => {
