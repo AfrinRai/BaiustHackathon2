@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  title: MonBondhu API - Missions 1 & 2
+  description: OpenAPI specification for Mission 1 (Mood Tracker) and Mission 2 (Community Health Map)
+  version: 1.0.0
+servers:
+  - url: https://api.monbondhu.example.com
+    description: Production server
+  - url: http://localhost:5000
+    description: Local development server
+
+paths:
+  /api/mood/{userId}/daily:
+    post:
+      summary: Submit daily mood check-in
+      description: Logs user mood and stress levels for the day.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Mood log
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mood:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  description: Mood level from 1 (very bad) to 5 (very good)
+                stress:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  description: Stress level from 1 (low) to 5 (high)
+      responses:
+        '200':
+          description: Mood logged successfully
+        '400':
+          description: Invalid input
+
+  /api/mood/{userId}/weekly:
+    get:
+      summary: Get weekly mood summary
+      description: Returns 7-day mood logs for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Weekly mood summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  summary:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        mood:
+                          type: integer
+                        stress:
+                          type: integer
+        '404':
+          description: User not found
+
+  /api/facilities/nearest:
+    get:
+      summary: Get nearest healthcare facilities
+      description: Returns a list of facilities near user location
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: lng
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: radius
+          in: query
+          required: false
+          schema:
+            type: number
+            default: 5
+      responses:
+        '200':
+          description: List of nearby facilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                        - কমিউনিটি ক্লিনিক
+                        - উপজেলা স্বাস্থ্য কমপ্লেক্স
+                        - এনজিও সেন্টার
+                        - ফার্মেসি
+                        - CHW
+                    distance:
+                      type: number
+                      description: Distance in km
+                    landmark:
+                      type: string
+                    coordinates:
+                      type: array
+                      items:
+                        type: number
