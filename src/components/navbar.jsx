@@ -1,12 +1,10 @@
-import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/Auth_provider.jsx";
 import { Menu, X } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
-  const [open, setOpen] = useState(true);
 
   const logOut = () => {
     logout()

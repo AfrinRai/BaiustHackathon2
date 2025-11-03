@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
-const Mission1 = ({ sidebarOpen = true }) => {
+const Mission1 = () => {
+  const { sidebarOpen } = useOutletContext(); // <- get sidebar open/close
   const [selectedOption, setSelectedOption] = useState("");
   const [comment, setComment] = useState("");
   const [weeklySummary, setWeeklySummary] = useState([]);
@@ -11,9 +11,9 @@ const Mission1 = ({ sidebarOpen = true }) => {
   const userId = "12345"; // Replace with actual user ID
 
   const options = [
-    { label: "1️⃣ আমার মন ভালো আছে 🙂", value: "happy" },
+    { label: "1️⃣ আমার মন ভালো আছে 🙂", value: "good" },
     { label: "2️⃣ আমি কিছুটা চিন্তিত 😐", value: "neutral" },
-    { label: "3️⃣ আমি উদ্বিগ্ন বা দুশ্চিন্তায় 😟", value: "sad" },
+    { label: "3️⃣ আমি উদ্বিগ্ন বা দুশ্চিন্তায় 😟", value: "bad" },
   ];
 
   // ------------------------
@@ -79,7 +79,7 @@ const Mission1 = ({ sidebarOpen = true }) => {
   return (
     <div
       className="p-6 min-h-screen bg-gradient-to-b from-[#e0f7fa] via-[#b2ebf2] to-[#80deea] transition-all duration-300"
-      style={{ marginLeft: sidebarOpen ? "16rem" : "5rem" }}
+      style={{ marginLeft: sidebarOpen ? "16rem" : "5rem" }} // dynamic margin based on navbar
     >
       <h1 className="text-4xl font-bold text-[#00796b] mb-6 flex items-center gap-2">
         🧠 মানসিক স্বাস্থ্য পরীক্ষা
@@ -89,6 +89,7 @@ const Mission1 = ({ sidebarOpen = true }) => {
         এখন নিজেকে মূল্যায়ন করুন। আপনার মন কেমন আছে তা নির্বাচন করুন:
       </p>
 
+      {/* Markdown-style vertical options */}
       <ul className="list-none space-y-3 text-lg text-[#00796b]">
         {options.map((opt) => (
           <li key={opt.value} className="flex items-center gap-3">
