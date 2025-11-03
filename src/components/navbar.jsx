@@ -1,99 +1,118 @@
-import React, { useContext } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/Auth_provider.jsx";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
+  const [open, setOpen] = useState(true);
 
   const logOut = () => {
     logout()
       .then(() => {
         alert("Signed out successfully");
-        navigate("/login"); // redirect to login after logout
+        navigate("/login");
       })
       .catch((error) => {
         alert(error.message);
       });
   };
 
+  // Missions with simple icons
+  const missions = [
+    { id: 1, name: "মানসিক স্বাস্থ্য পরীক্ষা", path: "/mission1", icon: "🧠" },
+    { id: 2, name: "কমিউনিটি মানচিত্র", path: "/mission2", icon: "🗺️" },
+    { id: 3, name: "সহায়তা অনুরোধ", path: "/mission3", icon: "💬" },
+    { id: 4, name: "স্বাস্থ্য টিপস", path: "/mission4", icon: "🌱" },
+    { id: 5, name: "মাতৃ ও শিশু ট্র্যাকার", path: "/mission5", icon: "👶" },
+    { id: 6, name: "লক্ষণ সচেতনতা", path: "/mission6", icon: "🔍" },
+    { id: 7, name: "কমিউনিটি ইভেন্টস", path: "/mission7", icon: "🎉" },
+    { id: 8, name: "স্বাস্থ্যকর্মী ডিরেক্টরি", path: "/mission8", icon: "📇" },
+    { id: 9, name: "ডেটা এক্সপোর্ট", path: "/mission9", icon: "💾" },
+    { id: 10, name: "ভয়েস-সহকারী", path: "/mission10", icon: "🎤" },
+  ];
+
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#1b0030] via-[#2a004d] to-[#3d0066] shadow-lg z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link
-              to="/"
-              className="text-purple-400 font-bold text-2xl hover:text-purple-300 transition-colors"
-            >
-              Duita Pothik
-            </Link>
-          </div>
-
-          {/* Links */}
-          <ul className="flex space-x-6 items-center">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? "bg-purple-700/60 text-purple-200 px-3 py-2 rounded-lg shadow-[0_0_10px_rgba(139,92,246,0.7)]"
-                    : "text-white px-3 py-2 rounded-lg hover:bg-purple-600/50 hover:text-purple-300"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-
-            {!user && (
-              <>
-                <li>
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "bg-purple-700/60 text-purple-200 px-3 py-2 rounded-lg shadow-[0_0_10px_rgba(139,92,246,0.7)]"
-                        : "text-white px-3 py-2 rounded-lg hover:bg-purple-600/50 hover:text-purple-300"
-                    }
-                  >
-                    Login
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/register"
-                    className={({ isActive }) =>
-                      isActive
-                        ? "bg-purple-700/60 text-purple-200 px-3 py-2 rounded-lg shadow-[0_0_10px_rgba(139,92,246,0.7)]"
-                        : "text-white px-3 py-2 rounded-lg hover:bg-purple-600/50 hover:text-purple-300"
-                    }
-                  >
-                    Sign Up
-                  </NavLink>
-                </li>
-              </>
-            )}
-
-            {user && (
-              <li className="relative group">
-                <button
-                  onClick={logOut}
-                  className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-semibold transition-all duration-300"
-                >
-                  Logout
-                </button>
-                {/* Tooltip below the button */}
-                <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-800 text-white text-sm px-3 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  {user.email || user.providerData?.[0]?.email}
-                </span>
-              </li>
-            )}
-          </ul>
-        </div>
+    <div
+      className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-[#4caf50] via-[#81c784] to-[#4dd0e1] text-white shadow-xl z-50 transition-all duration-300 ${
+        open ? "w-64" : "w-20"
+      }`}
+    >
+      {/* Toggle Button */}
+      <div
+        className="absolute top-4 right-4 cursor-pointer p-1 hover:bg-green-700 rounded-md transition"
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <X size={24} /> : <Menu size={24} />}
       </div>
-    </nav>
+
+      {/* Logo */}
+      <div className="flex items-center gap-2 px-6 pt-6 pb-4 border-b border-green-700">
+        <Link to="/" className="text-white font-bold text-3xl">
+          🌿
+        </Link>
+        {open && (
+          <Link
+            to="/"
+            className="text-white font-bold text-2xl hover:text-green-50 transition-colors"
+          >
+            মনবন্ধু
+          </Link>
+        )}
+      </div>
+
+      {/* Missions List */}
+      <ul className="mt-6 space-y-3 overflow-y-auto px-2 pb-24 h-[70vh] scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-transparent">
+        {missions.map((m) => (
+          <li key={m.id}>
+            <NavLink
+              to={m.path}
+              className={({ isActive }) =>
+                `flex items-center gap-4 px-4 py-3 rounded-lg font-semibold transition-colors duration-200 ${
+                  isActive
+                    ? "bg-green-800/60 shadow-[0_0_10px_rgba(0,128,0,0.5)] text-white text-lg"
+                    : "text-white hover:bg-green-700/50 text-lg"
+                }`
+              }
+            >
+              <span className="text-2xl">{m.icon}</span>
+              {open && <span>{m.name}</span>}
+              {!open && <span className="sr-only">{m.name}</span>}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+
+      {/* Bottom Section */}
+      <div className="absolute bottom-6 left-0 w-full px-4">
+        {!user && (
+          <div className="flex flex-col space-y-3">
+            <NavLink
+              to="/login"
+              className="text-center bg-green-700 hover:bg-green-600 rounded-lg py-3 font-semibold transition text-lg"
+            >
+              {open ? "লগ ইন" : "🔑"}
+            </NavLink>
+            <NavLink
+              to="/register"
+              className="text-center bg-green-700 hover:bg-green-600 rounded-lg py-3 font-semibold transition text-lg"
+            >
+              {open ? "সাইন আপ" : "📝"}
+            </NavLink>
+          </div>
+        )}
+
+        {user && (
+          <button
+            onClick={logOut}
+            className="w-full bg-red-500 hover:bg-red-400 text-white py-3 rounded-lg font-semibold transition text-lg"
+          >
+            {open ? "লগ আউট" : "🚪"}
+          </button>
+        )}
+      </div>
+    </div>
   );
 };
 
