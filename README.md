@@ -12,6 +12,7 @@ The project architecture includes a React frontend and supportive backend for of
 
 ## 🛠 Tech Stack
 
+### Frontend
 - **React.js** – UI library  
 - **Tailwind CSS** – Styling  
 - **React Leaflet** – Interactive maps for healthcare facilities  
@@ -19,7 +20,21 @@ The project architecture includes a React frontend and supportive backend for of
 - **React Router** – Client-side routing  
 - **LocalStorage** – Offline caching for user data  
 
+### Backend
+- **Node.js** – JavaScript runtime  
+- **Express.js** – Web framework for API development  
+- **MongoDB** – NoSQL database for storing users, facilities, and mood logs  
+- **Mongoose** – ODM for MongoDB  
+- **Firebase Authentication** – User authentication (email/password & Google sign-in)  
+- **Axios / node-fetch** – External API requests (e.g., Overpass API for real-world facilities)  
+- **dotenv** – Environment variable management  
+- **CORS** – Enable cross-origin requests from frontend  
+
+-   
+
 ---
+## Backend git repo
+Here is the Backend [Backend](https://github.com/MaskuraBegum/monbondu-Backend)
 
 ## 📌 Features & Implementation Plan
 
@@ -27,7 +42,7 @@ The project architecture includes a React frontend and supportive backend for of
 **Goal:** Track daily emotional wellness.  
 **Plan:**  
 - Users log mood & stress in Bangla.  
-- Offline storage ensures data is saved without internet.  
+- Offline storage ensures data is qeueed without internet.  
 - Trend graphs visualize emotional patterns.  
 - Privacy-first: logs remain on device.  
 
@@ -104,6 +119,10 @@ The project architecture includes a React frontend and supportive backend for of
 
 ---
 
+## 📄 API Specification
+
+The API endpoints used in the frontend are documented in (/openai.yaml) file of this folder following the OpenAPI standard.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -115,6 +134,7 @@ The project architecture includes a React frontend and supportive backend for of
 ```bash
 # Clone the repo
 git clone https://github.com/your-username/monbondhu-frontend.git
+
 
 # Enter the folder
 cd monbondhu-frontend
