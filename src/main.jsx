@@ -14,6 +14,7 @@ import Mission1 from './components/Mission1.jsx';
 import Mission2 from './components/Mission2.jsx';
 import Mission3 from './components/Mission3.jsx';
 import Mission4 from './components/Mission4.jsx';
+import Mission5 from './components/Mission5.jsx';
 import CommunityMap from './components/Mission2.jsx';
 import PrivateRoute from './provider/privateRoute.jsx';
 
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       { path: "/mission4", element: <Mission4 /> },
       { path: "/mission3", element: <Mission3/> },
       { path: "/mission2", element: <PrivateRoute><CommunityMap /></PrivateRoute> },
-      // { path: "/mission2", element: <Mission2 /> },
+      { path: "/mission5", element: <Mission5 /> },
     ],
   },
 ]);
