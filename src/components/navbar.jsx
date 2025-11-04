@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
 import { AuthContext } from "../provider/Auth_provider.jsx";
-import { Menu, X } from "lucide-react";
 
-const Navbar = ({ open, setOpen }) => {
+const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
 
@@ -19,7 +17,6 @@ const Navbar = ({ open, setOpen }) => {
       });
   };
 
-  // Missions with simple icons
   const missions = [
     { id: 1, name: "মানসিক স্বাস্থ্য পরীক্ষা", path: "/mission1", icon: "🧠" },
     { id: 2, name: "কমিউনিটি মানচিত্র", path: "/mission2", icon: "🗺️" },
@@ -34,35 +31,21 @@ const Navbar = ({ open, setOpen }) => {
   ];
 
   return (
-    <div
-      className={`fixed top-0 left-0 h-screen bg-gradient-to-b from-[#4caf50] via-[#81c784] to-[#4dd0e1] text-white shadow-xl z-50 transition-all duration-300 ${
-        open ? "w-64" : "w-20"
-      }`}
-    >
-      {/* Toggle Button */}
-      <div
-        className="absolute top-4 right-4 cursor-pointer p-1 hover:bg-green-700 rounded-md transition"
-        onClick={() => setOpen(!open)}
-      >
-        {open ? <X size={24} /> : <Menu size={24} />}
-      </div>
-
+    <div className="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-[#4caf50] via-[#81c784] to-[#4dd0e1] text-white shadow-xl z-50">
       {/* Logo */}
       <div className="flex items-center gap-2 px-6 pt-6 pb-4 border-b border-green-700">
         <Link to="/" className="text-white font-bold text-3xl">
           🌿
         </Link>
-        {open && (
-          <Link
-            to="/"
-            className="text-white font-bold text-2xl hover:text-green-50 transition-colors"
-          >
-            মনবন্ধু
-          </Link>
-        )}
+        <Link
+          to="/"
+          className="text-white font-bold text-2xl hover:text-green-50 transition-colors"
+        >
+          মনবন্ধু
+        </Link>
       </div>
 
-      {/* Missions List */}
+      {/* Missions */}
       <ul className="mt-6 space-y-3 overflow-y-auto px-2 pb-24 h-[70vh] scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-transparent">
         {missions.map((m) => (
           <li key={m.id}>
@@ -77,8 +60,7 @@ const Navbar = ({ open, setOpen }) => {
               }
             >
               <span className="text-2xl">{m.icon}</span>
-              {open && <span>{m.name}</span>}
-              {!open && <span className="sr-only">{m.name}</span>}
+              <span>{m.name}</span>
             </NavLink>
           </li>
         ))}
@@ -92,23 +74,22 @@ const Navbar = ({ open, setOpen }) => {
               to="/login"
               className="text-center bg-green-700 hover:bg-green-600 rounded-lg py-3 font-semibold transition text-lg"
             >
-              {open ? "লগ ইন" : "🔑"}
+              লগ ইন
             </NavLink>
             <NavLink
               to="/register"
               className="text-center bg-green-700 hover:bg-green-600 rounded-lg py-3 font-semibold transition text-lg"
             >
-              {open ? "সাইন আপ" : "📝"}
+              সাইন আপ
             </NavLink>
           </div>
         )}
-
         {user && (
           <button
             onClick={logOut}
             className="w-full bg-red-500 hover:bg-red-400 text-white py-3 rounded-lg font-semibold transition text-lg"
           >
-            {open ? "লগ আউট" : "🚪"}
+            লগ আউট
           </button>
         )}
       </div>
