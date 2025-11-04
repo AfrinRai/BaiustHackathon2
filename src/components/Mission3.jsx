@@ -56,7 +56,7 @@ const Mission3 = () => {
         setNgoRequests(counts);
       }
     } catch (err) {
-      console.log("❌ Could not fetch total requests:", err);
+      console.error("Error fetching symptoms:", err);
     }
   };
 
@@ -264,4 +264,4 @@ const Mission3 = () => {
   );
 };
 
-export default Mission3;
+export default Mission6;
