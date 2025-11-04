@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, Bell, Heart, AlertTriangle } from "lucide-react";
+import axios from "axios";
 
 const initialBabyData = [
   {
@@ -83,21 +84,25 @@ const initialBabyData = [
   },
 ];
 
+const colorMap = {
+  pink: "pink",
+  purple: "purple",
+  green: "green",
+  red: "red",
+};
 
 const Mission5 = () => {
-  const [language, setLanguage] = useState("bn"); // 'bn' or 'en'
+  const [language, setLanguage] = useState("bn");
   const [activeTab, setActiveTab] = useState("anc");
   const [babyData, setBabyData] = useState(initialBabyData);
   const [nextANC, setNextANC] = useState([]);
   const [nextVaccines, setNextVaccines] = useState([]);
-  const [userInput, setUserInput] = useState({
-    expectedDelivery: "",
-    childDOB: "",
-  });
+  const [userInput, setUserInput] = useState({ expectedDelivery: "", childDOB: "" });
   const [symptomInput, setSymptomInput] = useState("");
   const [alerts, setAlerts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Calculate ANC visits & vaccination schedules
+  // Calculate ANC visits
   const calculateANC = (date) => {
     if (!date) return [];
     const ancDates = [];
@@ -110,6 +115,7 @@ const Mission5 = () => {
     return ancDates;
   };
 
+  // Calculate vaccines
   const calculateVaccines = (dob) => {
     if (!dob) return [];
     const vaccines = [
@@ -131,12 +137,25 @@ const Mission5 = () => {
     if (userInput.childDOB) setNextVaccines(calculateVaccines(userInput.childDOB));
   }, [userInput]);
 
-  // Handle symptom logging & risk alerts
-  const handleSymptomSubmit = () => {
+  // AI Symptom Handling
+  const handleSymptomSubmit = async () => {
     if (!symptomInput) return;
-    const riskLevel = symptomInput.toLowerCase().includes("fever") ? "High" : "Low";
-    setAlerts([...alerts, { symptom: symptomInput, risk: riskLevel }]);
-    setSymptomInput("");
+    setLoading(true);
+    try {
+      const res = await axios.post("http://localhost:5000/api/disease/chat", {
+        symptoms: [symptomInput],
+        language,
+      });
+      console.log("AI Response:", res.data); // debug
+      const aiReply = res.data?.possibleDiseases || (language === "bn" ? "প্রতিক্রিয়া পাওয়া যায়নি" : "No response");
+      setAlerts((prev) => [...prev, { symptom: symptomInput, reply: aiReply }]);
+      setSymptomInput("");
+    } catch (err) {
+      console.error("AI Error:", err);
+      alert(language === "bn" ? "AI সার্ভারে সমস্যা হয়েছে" : "AI service error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const tabs = [
@@ -195,19 +214,16 @@ const Mission5 = () => {
                       ? `${b.month} মাস: ওজন ${b.weight}, উচ্চতা ${b.height}`
                       : `Month ${b.month}: Weight ${b.weight}, Height ${b.height}`}
                   </p>
-
                   <p className="text-xl text-green-600 mt-2">
                     {language === "bn"
-                        ? `মাইলস্টোন: ${b.milestones.bn.join(", ")}`
-                        : `Milestones: ${b.milestones.en.join(", ")}`}
+                      ? `মাইলস্টোন: ${b.milestones.bn.join(", ")}`
+                      : `Milestones: ${b.milestones.en.join(", ")}`}
                   </p>
-
                   <p className="italic text-xl text-green-800 font-semibold mt-2">
                     {language === "bn"
-                        ? `পুষ্টি পরামর্শ: ${b.nutrition.bn}`
-                        : `Nutrition Tip: ${b.nutrition.en}`}
+                      ? `পুষ্টি পরামর্শ: ${b.nutrition.bn}`
+                      : `Nutrition Tip: ${b.nutrition.en}`}
                   </p>
-
                 </div>
               ))}
             </div>
@@ -221,7 +237,7 @@ const Mission5 = () => {
             exit={{ opacity: 0, y: -20 }}
             className="bg-gradient-to-br from-red-100 to-red-200 rounded-3xl p-8 shadow-xl"
           >
-            <h3 className="text-3xl font-bold text-red-800 mb-6">{language === "bn" ? "লক্ষণ ও ঝুঁকি সতর্কতা" : "Symptom & Risk Alerts"}</h3>
+            <h3 className="text-3xl font-bold text-red-800 mb-6">{language === "bn" ? "লক্ষণ ও AI সতর্কতা" : "Symptom & AI Alerts"}</h3>
             <div className="space-y-6">
               <div className="flex gap-3">
                 <input
@@ -232,21 +248,29 @@ const Mission5 = () => {
                   onChange={(e) => setSymptomInput(e.target.value)}
                 />
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-xl"
                   onClick={handleSymptomSubmit}
+                  disabled={loading}
+                  className={`px-6 py-3 rounded-xl font-semibold text-xl transition-all duration-300 ${
+                    loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-500 hover:bg-red-600 text-white"
+                  }`}
                 >
-                  {language === "bn" ? "যোগ করুন" : "Add"}
+                  {loading ? (language === "bn" ? "প্রক্রিয়াকরণ..." : "Processing...") : language === "bn" ? "যোগ করুন" : "Add"}
                 </button>
               </div>
-              <ul className="list-disc ml-6 space-y-3 text-xl">
-                {alerts.length
-                  ? alerts.map((a, idx) => (
-                      <li key={idx} className="text-red-700">
-                        {a.symptom} - <span className={a.risk === "High" ? "text-red-900 font-bold" : "text-orange-700"}>{a.risk} Risk</span>
-                      </li>
-                    ))
-                  : <li className="text-red-600">{language === "bn" ? "কোনও সতর্কতা নেই" : "No alerts"}</li>}
-              </ul>
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {alerts.length ? (
+                  alerts.map((a, idx) => (
+                    <div key={idx} className="p-4 rounded-xl bg-white/70 shadow-md">
+                      <p className="font-medium text-red-700">{language === "bn" ? "আপনার লক্ষণ:" : "Your Symptom:"} {a.symptom}</p>
+                      <p className="mt-2 text-red-800 italic" style={{ whiteSpace: "pre-line" }}>
+                        {language === "bn" ? "চ্যাটবটের প্রতিক্রিয়া:" : "Chatbot Reply:"} {a.reply}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-red-600">{language === "bn" ? "কোনও চ্যাট নেই" : "No chat yet"}</p>
+                )}
+              </div>
             </div>
           </motion.div>
         );
@@ -281,11 +305,7 @@ const Mission5 = () => {
             className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-pink-400 focus:ring-4 focus:ring-pink-200 transition-all duration-300 text-lg"
             value={userInput.expectedDelivery || userInput.childDOB}
             onChange={(e) =>
-              setUserInput({
-                ...userInput,
-                expectedDelivery: e.target.value,
-                childDOB: e.target.value,
-              })
+              setUserInput({ expectedDelivery: e.target.value, childDOB: e.target.value })
             }
           />
         </div>
@@ -296,18 +316,19 @@ const Mission5 = () => {
         <div className="flex justify-center space-x-4">
           {tabs.map((tab) => {
             const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex flex-col items-center p-4 rounded-2xl shadow-lg transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? `bg-${tab.color}-200 border-2 border-${tab.color}-400`
+                  isActive
+                    ? `bg-${colorMap[tab.color]}-200 border-2 border-${colorMap[tab.color]}-400`
                     : "bg-white hover:bg-gray-50 border-2 border-gray-200"
                 }`}
               >
-                <Icon className={`w-8 h-8 ${activeTab === tab.id ? `text-${tab.color}-600` : "text-gray-600"}`} />
-                <span className={`mt-2 text-sm font-medium ${activeTab === tab.id ? `text-${tab.color}-700` : "text-gray-700"}`}>
+                <Icon className={`w-8 h-8 ${isActive ? `text-${colorMap[tab.color]}-600` : "text-gray-600"}`} />
+                <span className={`mt-2 text-sm font-medium ${isActive ? `text-${colorMap[tab.color]}-700` : "text-gray-700"}`}>
                   {tab.label}
                 </span>
               </button>
@@ -316,11 +337,9 @@ const Mission5 = () => {
         </div>
       </div>
 
-      {/* Content Area */}
+      {/* Content */}
       <div className="w-full max-w-6xl">
-        <AnimatePresence mode="wait">
-          {renderContent()}
-        </AnimatePresence>
+        <AnimatePresence mode="wait">{renderContent()}</AnimatePresence>
       </div>
     </div>
   );
